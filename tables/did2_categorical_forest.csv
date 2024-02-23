@@ -1,0 +1,23 @@
+analysis,domain,label_head,label_level,label,difference,lower,upper,Section
+Mobility and restriction policy,Pre-restriction mobility difference,Income (1=Highest),Income (1=Highest),,,,,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Income (1=Highest),Income 2 vs 1,incquint 2 vs 1,0.57,-0.48,1.63,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Income (1=Highest),Income 3 vs 1,incquint 3 vs 1,1.06,0,2.12,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Income (1=Highest),Income 4 vs 1,incquint 4 vs 1,0.69,-0.41,1.79,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Income (1=Highest),Income 5 vs 1,incquint 5 vs 1,2.54,1.43,3.66,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Proportion essential worker (5=Highest),Essential worker (5=Highest),,,,,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Proportion essential worker (5=Highest),Essential worker 2 vs 1,ess 2 vs 1,1.6,0.57,2.63,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Proportion essential worker (5=Highest),Essential worker 3 vs 1,ess 3 vs 1,3.62,2.58,4.66,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Proportion essential worker (5=Highest),Essential worker 4 vs 1,ess 4 vs 1,4.83,3.81,5.85,SDOH
+Mobility and restriction policy,Pre-restriction mobility difference,Proportion essential worker (5=Highest),Essential worker 5 vs 1,ess 5 vs 1,5.65,4.63,6.67,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income (1=Highest),,,,,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income 1 Pre vs Post,incquint 1 vs 1,-2.71,-3.92,-1.51,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income 2 Pre vs Post,incquint 2 vs 2,-1.5,-3.15,0.16,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income 3 Pre vs Post,incquint 3 vs 3,-1.91,-3.52,-0.29,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income 4 Pre vs Post,incquint 4 vs 4,0.9,-1.19,3,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Income (1=Highest) Pre vs Post,Income 5 Pre vs Post,incquint 5 vs 5,0.56,-1.93,3.05,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker (5=Highest),,,,,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker 1 Pre vs Post,ess 1 vs 1,-1.43,-2.85,-0.01,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker 2 Pre vs Post,ess 2 vs 2,-0.58,-2.19,1.03,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker 3 Pre vs Post,ess 3 vs 3,-2.48,-4.05,-0.9,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker 4 Pre vs Post,ess 4 vs 4,0.47,-1.17,2.11,SDOH
+Mobility and restriction policy,Adjusted mobility change following restriction,Proportion essential worker (5=Highest) Pre vs Post,Essential worker 5 Pre vs Post,ess 5 vs 5,-0.67,-2.68,1.35,SDOH
