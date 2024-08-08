@@ -15,5 +15,3 @@ figures (main figures)
 1. Fig1: policy timelines
 2. Fig2: figure panels for COVID-19 weekly cases and mobility trajectories by socioeconomic factors
 3. Fig3: forest plots for DID results
-
-data (only for public data)
