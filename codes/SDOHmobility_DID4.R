@@ -42,7 +42,6 @@ PHU_ID <- c("2230","2236","3895","2253","2270")
 RedPolicy <- ymd(c("2020-11-23", "2020-11-16","2020-11-10", "2020-11-06","2020-11-16"))
 weekRed <- epiweek(RedPolicy)
 Closure <- ymd(c("2020-12-26", "2020-12-26","2020-11-23","2020-11-23","2020-12-14"))
-# Closure <- c("2020-12-26", "2020-12-26","2020-11-23","2020-11-23","2020-12-24")
 weekGrey <- epiweek(Closure)
 policydate <- data.frame(PHU_ID,RedPolicy,weekRed,Closure,weekGrey)
 
@@ -118,9 +117,7 @@ anova(did2ess_categorical, test = "Chisq")
 
 
 #######################
-# New table and figures
-
-# Table 4 for income quintile
+# Table 6 for income quintile
 
 fitMain = lmer(percent_stay ~ 
                                 (1|CTID) +
@@ -173,10 +170,7 @@ write.csv(round(table4_r,2), "../new_version/Table4_income_categorical_right.csv
 
 
 ###########
-
-
-
-# Table 4 for essential quintile
+# Table 6 for essential quintile
 
 fitMain.ess = lmer(percent_stay ~ 
                              (1|CTID) +
@@ -227,7 +221,7 @@ write.csv(round(table4.ess_r,2), "../new_version/Table4_esw_categorical_right.cs
 #################### 
 # Forest figures
 
-# Figure 4
+# Figure 3
 # Forest plot for Table 4
 
 
@@ -529,213 +523,5 @@ round(table4.ess_r,2)
 # Save Table 4
 write.csv(round(table4.ess_l,2), "../new_version/Table4_esw_binary_left.csv")
 write.csv(round(table4.ess_r,2), "../new_version/Table4_esw_binary_right.csv")
-
-#################### 
-# Forest figures
-
-# Figure 4
-# Forest plot for Table 4
-
-
-library(ggplot2)
-library(reshape2)
-library(gridExtra)
-library(grid)
-library(dplyr)
-library(ggforce)
-
-
-table4<-read.csv("../new_version/did2_binary_forest.csv")
-nrow(table4)
-
-col2 = c('#0072B2',
-         '#D55E00')
-
-table4$domain = factor(table4$domain,levels = c("Pre-restriction mobility difference","Adjusted mobility change following restriction"))
-table4a = table4 %>% filter(domain == "Pre-restriction mobility difference")
-table4b = table4 %>% filter(domain == "Adjusted mobility change following restriction")
-
-
-
-# Appendix A5
-
-
-
-pa51 <-ggplot(table4b[c(1:6),], aes(y= difference, x = reorder(label_level,6:1), color = label_head)) +
-  geom_point(position = position_dodge(.5)) +
-  geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
-  scale_y_continuous(limits = c(-4.5,4.5),
-                     breaks = c(-4, -2, 0, 2, 4),
-                     minor_breaks = NULL) +
-  geom_hline(yintercept = 0, linetype=2) +
-  scale_color_manual(name = "Model",
-                     values = '#0072B2')+
-  # scale_color_discrete(name = "Model",
-  #                      breaks = c("Unadjusted", "Age and sex adjusted","Non-SDOH adjusted","Full adjusted"),
-  #                      labels = c("Unadjusted", "Age and sex adjusted","Demographic and baseline health adjusted","Demographic, baseline health,\nand other SDOH adjusted"))+
-  scale_x_discrete(breaks = table4b[c(1:6),]$label_level,
-                   
-                   labels = c(expression(bold("Income (Q1=Highest)")),"Q1: Post vs Pre","Q2: Post vs Pre","Q3: Post vs Pre","Q4: Post vs Pre","Q5: Post vs Pre"))+
-  coord_flip(xlim = c(1,6), clip = 'off') +
-  # coord_cartesian(ylim = c(-4,4), clip = "off") +
-  # annotate(geom = 'text', label = '<- Reduced mobility', 
-  #          y = -4,
-  #          x = -1,
-  #          vjust = -3,
-  #          hjust = 0,
-  #          size = 3)+
-  # annotate(geom = 'text', label = ' Increased mobility ->', 
-  #          y = 1,
-  #          x = -1,
-  #          vjust = -3,
-#          hjust = 0,
-#          size = 3)+
-labs(title="", x ='', y = "Difference") +
-  # Add a second axis
-  geom_segment(x = -0.6, y = -4, xend = -0.6, yend = 4,color = 'black',
-               arrow = arrow(length = unit(0.03, "npc"), ends = "both"))+
-  annotate("segment",x=-0.55,xend=-0.65, y=0,yend=0, size=0.6)+
-  annotate("text",x=-0.8, y=-2.2,size=3.5, label = 'Reduced mobility')+
-  annotate("text",x=-0.8, y=2.2,size=3.5, label = 'Increased mobility')+
-  
-  theme_bw()+
-  theme(legend.position = "none",
-        plot.margin = margin(t = 10, 
-                             r = 10,
-                             b = 45, 
-                             l = 10)) +
-  facet_wrap(~ domain ,nrow = 1)
-
-pa51
-
-
-
-pa52 <-ggplot(table4b[c(7:12),], aes(y= difference, x = reorder(label_level,6:1), color = label_head)) +
-  geom_point(position = position_dodge(.5)) +
-  geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
-  scale_y_continuous(limits = c(-4.5,4.5),
-                     breaks = c(-4, -2, 0, 2, 4),
-                     minor_breaks = NULL) +
-  geom_hline(yintercept = 0, linetype=2) +
-  scale_color_manual(name = "Model",
-                     values = '#D55E00')+
-  # scale_color_discrete(name = "Model",
-  #                      breaks = c("Unadjusted", "Age and sex adjusted","Non-SDOH adjusted","Full adjusted"),
-  #                      labels = c("Unadjusted", "Age and sex adjusted","Demographic and baseline health adjusted","Demographic, baseline health,\nand other SDOH adjusted"))+
-  scale_x_discrete(breaks = table4b[c(7:12),]$label_level,
-                   
-                   labels = c(expression(bold("Proportion essential \nworkers (Q1=Lowest)")),"Q1: Post vs Pre","Q2: Post vs Pre","Q3: Post vs Pre","Q4: Post vs Pre","Q5: Post vs Pre"))+
-  coord_flip(xlim = c(1,6), clip = 'off') +
-  # coord_cartesian(ylim = c(-4,4), clip = "off") +
-  # annotate(geom = 'text', label = '<- Reduced mobility', 
-  #          y = -4,
-  #          x = -1,
-  #          vjust = -3,
-  #          hjust = 0,
-  #          size = 3)+
-  # annotate(geom = 'text', label = ' Increased mobility ->', 
-  #          y = 1,
-  #          x = -1,
-  #          vjust = -3,
-#          hjust = 0,
-#          size = 3)+
-labs(title="", x ='', y = "Difference") +
-  # Add a second axis
-  geom_segment(x = -0.6, y = -4, xend = -0.6, yend = 4,color = 'black',
-               arrow = arrow(length = unit(0.03, "npc"), ends = "both"))+
-  annotate("segment",x=-0.55,xend=-0.65, y=0,yend=0, size=0.6)+
-  annotate("text",x=-0.8, y=-2.2,size=3.5, label = 'Reduced mobility')+
-  annotate("text",x=-0.8, y=2.2,size=3.5, label = 'Increased mobility')+
-  
-  theme_bw()+
-  theme(legend.position = "none",
-        plot.margin = margin(t = 10, 
-                             r = 10,
-                             b = 45, 
-                             l = 10)) +
-  facet_wrap(~ domain ,nrow = 1)
-
-pa52
-
-
-##################### Make panel for Table 4b #################
-
-# png for forest plot panel
-library(cowplot)
-# png("../Plots/MobilitySDOH_Figures/Forest_plot_Table4b.png",width = 1000, height = 550, units = "px",
-#     res = 120)
-png("../new_version/Forest_plot_did_binary.png",width = 1100, height = 550, units = "px",
-    res = 120)
-plot_grid( pa51, pa52,
-           labels = c("A", "B"),
-           label_size = 13,
-           scale=1,
-           rel_widths = c(1,1)) 
-dev.off()
-
-
-################ Placebo test ###############
-test = subset(policy3did, w_o_y <49)
-set.seed(12345)
-test = test %>%
-  mutate(placebo = policy,
-         trt = ifelse(PHU_ID %in% c("3895","2230"), 1, 0)) %>%
-  mutate(placebo = ifelse((PHU_ID %in% c("3895","2230")) & w_o_y == 47, 1, 0))
-  # select(PHU_ID, w_o_y, placebo, policy)
-# test = unique(test)
-
-#################################
-# Proposed model 1 (with categorical time variables)
-did1_categorical = lmer(percent_stay ~ 
-                          (1|CTID) +
-                          (1|PHU_ID)+
-                          as.factor(week)+
-                          as.factor(trt)+
-                          as.factor(placebo), 
-                        data=test,
-                        REML = FALSE)
-
-summary(did1_categorical)
-confint(did1_categorical)
-anova(did1_categorical, test = "Chisq")
-
-##################################
-
-
-
-# Proposed model 2 by income (with categorical time variables)
-did2income_categorical = lmer(percent_stay ~ 
-                                (1|CTID) +
-                                (1|PHU_ID) +
-                                as.factor(placebo)*as.factor(ATIPPE_quintile)+
-                                as.factor(trt)*as.factor(ATIPPE_quintile)+
-                                as.factor(week)*as.factor(ATIPPE_quintile), 
-                              data=test,
-                              REML = FALSE)
-summary(did2income_categorical)
-
-anova(did2income_categorical, test = "Chisq")
-
-
-# Proposed model 2 by proportion essential worker (with categorical time variables)
-did2ess_categorical = lmer(percent_stay ~ 
-                             (1|CTID) +
-                             (1|PHU_ID) +
-                             as.factor(placebo)*as.factor(ess_quintile)+
-                             as.factor(trt)*as.factor(ess_quintile)+
-                             as.factor(week)*as.factor(ess_quintile), 
-                           data=test,
-                           REML = FALSE)
-summary(did2ess_categorical)
-
-anova(did2ess_categorical, test = "Chisq")
 
 

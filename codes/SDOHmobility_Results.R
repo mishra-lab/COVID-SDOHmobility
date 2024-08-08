@@ -8,11 +8,8 @@ library(lme4)
 
 
 # Source file working directory
-# setwd("C:/Users/wangs/OneDrive/Documents/GitHub/SDOH-Mobility/Rfiles")
 setwd("C:/Users/WangSiyi/Documents/GitHub/SDOH-Mobility/Rfiles")
 
-
-# mobilityCT <- read.csv("D:/UT/Master/COVID-19/mobility/update/20210301/ctuid_level_weekly_20210404_20210410.csv", fileEncoding="UTF-8-BOM")
 mobilityCT <- read.csv("../Data/ctuid_level_weekly_20210425_20210501.csv", fileEncoding="UTF-8-BOM")
 length(unique(mobilityCT$CTID))
 income_occ_CT <- read.xlsx("../Data/COVID19 Modeling - income-occ by CT - 2020-12-16.xlsx", na.strings = ".")
@@ -170,7 +167,7 @@ length(unique(policy3PeelToronto$CTID))
 TorontoPeel_closure2_mobility <- Table2_new(data = policy3PeelToronto, SDOHcol = "control", Mobilitycol = "mobility")
 write.csv(TorontoPeel_closure2_mobility, file="../Tables/Table2_new/Overall_closure2_mobility_TorPee.csv", row.names = F, quote = F, na = "NA")
 
-#################### Table 2 First Closure ######################
+#################### Table 1 First Closure ######################
 
 # 268 rows with missing baseline in 2019 in mobilitySDOH_CT
 
@@ -184,45 +181,19 @@ policy1 <- mobilitySDOH_CT[!is.na(mobilitySDOH_CT$base_2019_percent_stay),] %>%
 length(unique(policy1$CTID))
 missingcheck = table(policy1$CTID, policy1$policy)
 
-ATIPPEQ_closure1_percent_stay <- Table2_new(data = policy1, SDOHcol = "ATIPPE_quintile", Mobilitycol = "percent_stay")
 ATIPPEQ_closure1_mobility <- Table2_new(data = policy1, SDOHcol = "ATIPPE_quintile", Mobilitycol = "mobility")
-ATIPPEQ_closure1_prop_at_home <- Table2_new(data = policy1, SDOHcol = "ATIPPE_quintile", Mobilitycol = "prop_at_home")
-
-ATIPPEQ_withinPHU_closure1_percent_stay <- Table2_new(data = policy1, SDOHcol = "ATIPPE_quintile_withinPHU", Mobilitycol = "percent_stay")
-
-EssentialServiceQ_closure1_percent_stay <- Table2_new(data = policy1, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "percent_stay")
 EssentialServiceQ_closure1_mobility <- Table2_new(data = policy1, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "mobility")
 
 #################### Table 2 Second Closure #########################
 
-# PHU_ID <- c("2230","2236","3895","2253","2270")
-# RedPolicy <- c("2020-11-23", "2020-11-16","2020-11-10", "2020-11-06","2020-11-16")
-# weekRed <- epiweek(RedPolicy)
-# Closure <- c("2020-12-26", "2020-12-26","2020-11-23","2020-11-23","2020-12-14")
-# weekGrey <- epiweek(Closure)
-# policydate <- data.frame(cbind(PHU_ID,RedPolicy,weekRed,Closure,weekGrey))
-# 
-# 
-# mobilitySDOH_CT <- merge(mobilitySDOH_CT, policydate, by="PHU_ID")
 
+# Grey policy
+# policy 3
+policy3 <-mobilitySDOH_CT[!is.na(mobilitySDOH_CT$base_2019_percent_stay),] %>%
+  filter(week <= as.numeric(weekGrey)+3 & week>= as.numeric(weekGrey)-3 & week != as.numeric(weekGrey)) %>%
+  mutate(policy=ifelse(as.Date(wk_day_1) <= as.Date(Closure), 0,1))
+length(unique(policy3$CTID))
 
-# # Red policy
-# # policy 2
-# policy2 <- mobilitySDOH_CT[!is.na(mobilitySDOH_CT$base_2019_percent_stay),] %>% 
-#   filter(week <= as.numeric(weekRed)+3 & week>= as.numeric(weekRed)-3 & week != as.numeric(weekRed)) %>%
-#   mutate(policy=ifelse(as.Date(wk_day_1) <= as.Date(RedPolicy), 0,1))
-# length(unique(policy2$CTID))
-# 
-# 
-# # Grey policy
-# # policy 3
-# policy3 <-mobilitySDOH_CT[!is.na(mobilitySDOH_CT$base_2019_percent_stay),] %>% 
-#   filter(week <= as.numeric(weekGrey)+3 & week>= as.numeric(weekGrey)-3 & week != as.numeric(weekGrey)) %>%
-#   mutate(policy=ifelse(as.Date(wk_day_1) <= as.Date(Closure), 0,1))
-# length(unique(policy3$CTID))
-
-## Note policy 1 has 1239 CTs and policy 3 has 1240 CTs since CT 5350009 only have mobility data for the second restriction but not the first restriction
-# diff = subset(policy3, CTID == 5350009)
 
 # Grey policy with Peel and Toronto
 # policy3PeelToronto
@@ -234,37 +205,8 @@ length(unique(policy3PeelToronto$CTID))
 length(unique(policy3PeelToronto$CTID))
 missingcheck = table(policy3PeelToronto$CTID, policy3PeelToronto$policy)
 
-# Red
-ATIPPEQ_red_percent_stay <- Table2_new(data = policy2, SDOHcol = "ATIPPE_quintile", Mobilitycol = "percent_stay")
-ATIPPEQ_red_mobility <- Table2_new(data = policy2, SDOHcol = "ATIPPE_quintile", Mobilitycol = "mobility")
-ATIPPEQ_red_prop_at_home <- Table2_new(data = policy2, SDOHcol = "ATIPPE_quintile", Mobilitycol = "prop_at_home")
-
-ATIPPEQ_withinPHU_red_percent_stay <- Table2_new(data = policy2, SDOHcol = "ATIPPE_quintile_withinPHU", Mobilitycol = "percent_stay")
-
-EssentialServiceQ_red_percent_stay <- Table2_new(data = policy2, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "percent_stay")
-EssentialServiceQ_red_mobility <- Table2_new(data = policy2, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "mobility")
-
-
-# Grey GTA
-ATIPPEQ_closure2_percent_stay <- Table2_new(data = policy3, SDOHcol = "ATIPPE_quintile", Mobilitycol = "percent_stay")
-ATIPPEQ_closure2_mobility <- Table2_new(data = policy3, SDOHcol = "ATIPPE_quintile", Mobilitycol = "mobility")
-ATIPPEQ_closure2_prop_at_home <- Table2_new(data = policy3, SDOHcol = "ATIPPE_quintile", Mobilitycol = "prop_at_home")
-
-ATIPPEQ_withinPHU_closure2_percent_stay <- Table2_new(data = policy3, SDOHcol = "ATIPPE_quintile_withinPHU", Mobilitycol = "percent_stay")
-
-EssentialServiceQ_closure2_percent_stay <- Table2_new(data = policy3, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "percent_stay")
-EssentialServiceQ_closure2_mobility <- Table2_new(data = policy3, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "mobility")
-
-
 # Grey Toronto/Peel only
-ATIPPEQ_closure2_percent_stay_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "ATIPPE_quintile", Mobilitycol = "percent_stay")
 ATIPPEQ_closure2_mobility_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "ATIPPE_quintile", Mobilitycol = "mobility")
-ATIPPEQ_closure2_prop_at_home_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "ATIPPE_quintile", Mobilitycol = "prop_at_home")
-
-
-ATIPPEQ_withinPHU_closure2_percent_stay_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "ATIPPE_quintile_withinPHU", Mobilitycol = "percent_stay")
-
-EssentialServiceQ_closure2_percent_stay_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "percent_stay")
 EssentialServiceQ_closure2_mobility_TorPee <- Table2_new(data = policy3PeelToronto, SDOHcol = "employ_sales.trades.manufacturing.agriculture_quintile", Mobilitycol = "mobility")
 
 ############################# Save Table 1 and Table 2 ######################################
@@ -272,37 +214,10 @@ EssentialServiceQ_closure2_mobility_TorPee <- Table2_new(data = policy3PeelToron
 write.csv(table1ATIPPEQ, file="../Tables/ATIPPEQ_table1.csv", row.names = F, quote = F, na = "NA")
 write.csv(table1ESWQ, file="../Tables/ESWQ_table1.csv", row.names = F, quote = F, na = "NA")
 
-write.csv(ATIPPEQ_closure1_percent_stay, file="../Tables/Table2_new/ATIPPEQ_closure1_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_red_percent_stay, file="../Tables/Table2_new/ATIPPEQ_red_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_closure2_percent_stay, file="../Tables/Table2_new/ATIPPEQ_closure2_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_closure2_percent_stay_TorPee, file="../Tables/Table2_new/ATIPPEQ_closure2_percent_stay_TorPee.csv", row.names = F, quote = F, na = "NA")
-
-
 write.csv(ATIPPEQ_closure1_mobility, file="../Tables/Table2_new/ATIPPEQ_closure1_mobility.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_red_mobility, file="../Tables/Table2_new/ATIPPEQ_red_mobility.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_closure2_mobility, file="../Tables/Table2_new/ATIPPEQ_closure2_mobility.csv", row.names = F, quote = F, na = "NA")
 write.csv(ATIPPEQ_closure2_mobility_TorPee, file="../Tables/Table2_new/ATIPPEQ_closure2_mobility_TorPee.csv", row.names = F, quote = F, na = "NA")
 
-
-write.csv(ATIPPEQ_closure1_prop_at_home, file="../Tables/Table2_new/ATIPPEQ_closure1_prop_at_home.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_red_prop_at_home, file="../Tables/Table2_new/ATIPPEQ_red_prop_at_home.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_closure2_prop_at_home, file="../Tables/Table2_new/ATIPPEQ_closure2_prop_at_home.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_closure2_prop_at_home_TorPee, file="../Tables/Table2_new/ATIPPEQ_closure2_prop_at_home_TorPee.csv", row.names = F, quote = F, na = "NA")
-
-
-write.csv(ATIPPEQ_withinPHU_closure1_percent_stay, file="../Tables/Table2_new/ATIPPEQ_withinPHU_closure1_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_withinPHU_red_percent_stay, file="../Tables/Table2_new/ATIPPEQ_withinPHU_red_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_withinPHU_closure2_percent_stay, file="../Tables/Table2_new/ATIPPEQ_withinPHU_closure2_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(ATIPPEQ_withinPHU_closure2_percent_stay_TorPee, file="../Tables/Table2_new/ATIPPEQ_withinPHU_closure2_percent_stay_TorPee.csv", row.names = F, quote = F, na = "NA")
-
-write.csv(EssentialServiceQ_closure1_percent_stay, file="../Tables/Table2_new/EssentialServiceQ_closure1_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(EssentialServiceQ_red_percent_stay, file="../Tables/Table2_new/EssentialServiceQ_red_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(EssentialServiceQ_closure2_percent_stay, file="../Tables/Table2_new/EssentialServiceQ_closure2_percent_stay.csv", row.names = F, quote = F, na = "NA")
-write.csv(EssentialServiceQ_closure2_percent_stay_TorPee, file="../Tables/Table2_new/EssentialServiceQ_closure2_percent_stay_TorPee.csv", row.names = F, quote = F, na = "NA")
-
 write.csv(EssentialServiceQ_closure1_mobility, file="../Tables/Table2_new/EssentialServiceQ_closure1_mobility.csv", row.names = F, quote = F, na = "NA")
-write.csv(EssentialServiceQ_red_mobility, file="../Tables/Table2_new/EssentialServiceQ_red_mobility.csv", row.names = F, quote = F, na = "NA")
-write.csv(EssentialServiceQ_closure2_mobility, file="../Tables/Table2_new/EssentialServiceQ_closure2_mobility.csv", row.names = F, quote = F, na = "NA")
 write.csv(EssentialServiceQ_closure2_mobility_TorPee, file="../Tables/Table2_new/EssentialServiceQ_closure2_mobility_TorPee.csv", row.names = F, quote = F, na = "NA")
 
 ############################ Summary Tables for SDOHs ##########################################

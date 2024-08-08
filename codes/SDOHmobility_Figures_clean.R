@@ -6,7 +6,6 @@ library(grid)
 library(viridis)
 library(openxlsx)
 
-# setwd("C:/Users/wangs/OneDrive/Documents/GitHub/SDOH-Mobility/Rfiles")
 setwd("C:/Users/WangSiyi/Documents/GitHub/SDOH-Mobility/Rfiles")
 
 
@@ -91,15 +90,6 @@ covidCT_EssentialServiceQ$covid_wk_day_1 <- as.Date(covidCT_EssentialServiceQ$co
 covidCT_EssentialServiceQ$employ_sales.trades.manufacturing.agriculture_quintile <-
   as.factor(covidCT_EssentialServiceQ$employ_sales.trades.manufacturing.agriculture_quintile)
 
-
-###############################################################################
-# fourty = unique(mobilitySDOH_CT$CTID)
-# thirtynine = unique(mcSDOH$CTID)
-# thirtynine = unique(policy1$CTID)
-# no_match = fourty[is.na(match(fourty,thirtynine))]
-# 
-# missing = mobilitySDOH_CT %>% filter(CTID == as.character(5350009)) %>% filter(week %in% c(9:11,13:15))
-# missing = mobilitySDOH_CT %>% filter(CTID == as.character(5350378.18)) # for covid
 
 ####################### Figure 1 ############################
 
@@ -223,13 +213,9 @@ p1 <- ggplot(covidCT,aes(x=covid_wk_day_1,y=Iwk)) +
 p1
 
 ggsave(p1, file= "../Plots/MobilitySDOH_Figures/new/covid_timelines.png", width = 9, height = 6)
-# png("../Plots/MobilitySDOH_Figures/new/covid_timelines.png", width = 1100, height = 700, units = "px",
-#     res = 120)
-# p1
-# dev.off()
 
-########################
-########### Appendix Figure A3 detailed policy timeline for the second restriction ############################
+
+########### Appendix Figure A4 detailed policy timeline for the second restriction ############################
 
 # Separate policy timeline plot
 
@@ -307,10 +293,7 @@ pa31
 
 
 ggsave(pa31, file= "../Plots/MobilitySDOH_Figures/covid_timelines2_TorPeel_partial.png", width = 5, height = 4.5)
-# png("../Plots/MobilitySDOH_Figures/covid_timelines2_TorPeel_partial.png", width = 5600, height = 2800, units = "px",
-#     res = 300)
-# p1
-# dev.off()
+
 #####################
 
 # Control group
@@ -393,10 +376,7 @@ pa32
 
 ggsave(pa32, file= "../Plots/MobilitySDOH_Figures/covid_timelines2_DurHalYrk_onecurve_partial.png", width = 5, height = 4.5)
 
-# png("../Plots/MobilitySDOH_Figures/covid_timelines2_DurHalYrk_onecurve_partial.png", width = 2800, height = 2800, units = "px",
-#     res = 300)
-# p2
-# dev.off()
+
 ####################### 
 # Make panel
 
@@ -415,20 +395,6 @@ pa3
 
 ggsave(file= "../Plots/MobilitySDOH_Figures/COVID_timeline2_appendix_onecurve_partial.png", bg = 'white',                                     
        width = 5, height = 8.5, limitsize = FALSE, pa3)
-
-
-# labels_with_superscript <-  c(as.character(as.expression("Public health units that had "*2^nd~restriction)),
-#                               as.character(expression("Control group for "*2^nd~restriction)))
-# 
-# 
-# # png for SDOH mobility and covid panel
-# library(cowplot)
-# png("../Plots/MobilitySDOH_Figures/COVID_timeline2_appendix_onecurve_partial.png", width = 6000, height = 3000, units = "px",
-#     res = 300)
-# plot_grid( p1, p2,nrow=1, ncol=2,
-#            scale=0.9) +
-#   draw_plot_label(labels_with_superscript, x = c(-0.08, 0.45), y = c(1, 1), size = 22, parse = TRUE)
-# dev.off()
 
 
 
@@ -477,20 +443,6 @@ flowchart <- grViz("digraph flowchart {
       ")
 flowchart
 
-# setwd("C:/Users/WangSiyi/Documents/GitHub/SDOH-Mobility/Rfiles")
-# png("../Plots/MobilitySDOH_Figures/Flow_Chart.png", width = 550, height = 600, units = "px",
-#     res = 300)
-# flowchart
-# dev.off()
-
-# export_graph(flowchart,
-#              file_name = "../Plots/MobilitySDOH_Figures/Flow_Chart.png",
-#              file_type = "png")
-# 
-# save_graph(x=flowchart, file="../Plots/MobilitySDOH_Figures/Flow_Chart.png")
-
-# Export Function for lavaanPlot Obtained from github
-# https://github.com/alishinski/lavaanPlot/blob/export_plots/R/plotExportFunctions.R
 
 save_png <- function(plot, path){
   DiagrammeRsvg::export_svg(plot) %>%
@@ -502,7 +454,7 @@ save_png <- function(plot, path){
 save_png(flowchart, "../Plots/MobilitySDOH_Figures/Flow_Chart.png")
 
 
-####################### Figure 3 ############################
+####################### Figure 2 ############################
 
 # Four-panel figures for both epidemic curves and mobility patterns
 
@@ -517,78 +469,6 @@ mobilityCT_EssentialServiceQ_r <- subset(mobilityCT_EssentialServiceQ, week >= 9
 # Reorder quintile levels so that the legend is from 5 to 1
 covidCT_ATIPPEQ$ATIPPE_quintile <- factor(covidCT_ATIPPEQ$ATIPPE_quintile, 
                                           levels = rev(levels(covidCT_ATIPPEQ$ATIPPE_quintile)))
-# # Infection rate not weekly cases
-# p31 <- ggplot(covidCT_ATIPPEQ,aes(x=covid_wk_day_1,y=infect_rate, colour=ATIPPE_quintile)) +
-#   geom_line(size=0.85)+ xlab("") + ylab("Weekly new COVID-19 cases") +
-#   ylim(0,0.0027)+
-#   # Reverse legend quintile from top to bottom to align with the line graph (visually easier on the eye that way)
-#   scale_color_viridis(discrete = TRUE, direction = -1, name = "Income quintile",
-#                       labels = rev(c("1 = Highest \n      income", "2", "3", "4", "5 = Lowest \n      income"))) +
-#   scale_x_date(breaks = seq(as.Date("2020-02-23"), as.Date("2020-12-13"), by = "6 week"),
-#                date_labels = "%b %d") +
-#   # scale_x_date(date_breaks = "6 week", date_labels = "%b %d") +
-#   # Make annotation above the box in the margin
-#   coord_cartesian(clip = "off") +
-#   geom_vline(xintercept = as.numeric(as.Date("Mar 16, 2020", format="%b %d, %Y")), linetype=2, colour="black")+
-#   geom_vline(xintercept = as.numeric(as.Date("Nov 23, 2020", format="%b %d, %Y")), linetype=2, colour="black")+
-#   annotation_custom(restriction1,
-#                     xmin = as.Date("Mar 16, 2020", format="%b %d, %Y"),
-#                     xmax =as.Date("Mar 16, 2020", format="%b %d, %Y"),
-#                     ymin =4650) +
-#   annotation_custom(restriction2,
-#                     xmin = as.Date("Nov 10, 2020", format="%b %d, %Y"),
-#                     xmax =as.Date("Nov 10, 2020", format="%b %d, %Y"),
-#                     ymin =4650) +
-# 
-#   theme(plot.margin=margin(t=50),
-#         panel.background=element_rect(fill="white",colour="grey20"),
-#         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size = 10),
-#         axis.text.y = element_text(size = 10),
-#         #plot.title = element_text(hjust=0.5, face="bold", size=34),
-#         axis.title = element_text(hjust=0.5, size=11),
-#         legend.title = element_text(hjust=0, size=10),
-#         legend.text=element_text(size=10),
-#         legend.key = element_rect(fill="white",colour=NA),
-#         legend.key.size = unit(0.7, 'cm'),
-#         legend.key.width= unit(0.8, 'cm'))
-# p31
-# 
-# p32 <- ggplot(covidCT_EssentialServiceQ,aes(x=covid_wk_day_1,y=infect_rate,
-#                                             colour=employ_sales.trades.manufacturing.agriculture_quintile)) +
-#   geom_line(size=0.85)+ xlab("") + ylab("Weekly new COVID-19 cases") +
-#   ylim(0,0.0027)+
-#   # Reverse legend quintile from top to bottom to align with the line graph (visually easier on the eye that way)
-#   scale_color_viridis(discrete = TRUE, direction = -1, name = "Essential worker \nquintile",
-#                       labels = rev(c("1 = Lowest \n   proportion", "2", "3", "4", "5 = Highest \n   proportion"))) +
-#   scale_x_date(breaks = seq(as.Date("2020-02-23"), as.Date("2020-12-13"), by = "6 week"),
-#                date_labels = "%b %d") +
-#   # scale_x_date(date_breaks = "6 week", date_labels = "%b %d") +
-#   # Make annotation above the box in the margin
-#   coord_cartesian(clip = "off") +
-#   geom_vline(xintercept = as.numeric(as.Date("Mar 16, 2020", format="%b %d, %Y")), linetype=2, colour="black")+
-#   geom_vline(xintercept = as.numeric(as.Date("Nov 23, 2020", format="%b %d, %Y")), linetype=2, colour="black")+
-#   annotation_custom(restriction1,
-#                     xmin = as.Date("Mar 16, 2020", format="%b %d, %Y"),
-#                     xmax =as.Date("Mar 16, 2020", format="%b %d, %Y"),
-#                     ymin =4650) +
-#   annotation_custom(restriction2,
-#                     xmin = as.Date("Nov 10, 2020", format="%b %d, %Y"),
-#                     xmax =as.Date("Nov 10, 2020", format="%b %d, %Y"),
-#                     ymin =4650) +
-#   theme(plot.margin=margin(t=50),
-#         panel.background=element_rect(fill="white",colour="grey20"),
-#         axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size = 10),
-#         axis.text.y = element_text(size = 10),
-#         #plot.title = element_text(hjust=0.5, face="bold", size=34),
-#         axis.title = element_text(hjust=0.5, size=11),
-#         legend.title = element_text(hjust=0, size=10),
-#         legend.text=element_text(size=10),
-#         legend.key = element_rect(fill="white",colour=NA),
-#         legend.key.size = unit(0.7, 'cm'),
-#         legend.key.width= unit(0.8, 'cm'))
-# 
-# p32
-# 
 
 p31 <- ggplot(covidCT_ATIPPEQ,aes(x=covid_wk_day_1,y=Iwk, colour=ATIPPE_quintile)) + 
   geom_line(size=0.85)+ xlab("") + ylab("Weekly new COVID-19 cases") +
@@ -671,16 +551,6 @@ p32
 ggsave(p31, file= "../Plots/MobilitySDOH_Figures/covid_ATIPPEQ.png", width = 6, height = 5)
 ggsave(p32, file= "../Plots/MobilitySDOH_Figures/covid_EssentialServicesQ.png", width = 6, height = 5)
 
-# png("../Plots/MobilitySDOH_Figures/covid_ATIPPEQ.png", width = 700, height = 600, units = "px",
-#     res = 120)
-# p31
-# dev.off()
-# 
-# 
-# png("../Plots/MobilitySDOH_Figures/covid_EssentialServicesQ.png", width = 700, height = 600, units = "px",
-#     res = 120)
-# p32
-# dev.off()
 
 #######################
 
@@ -728,10 +598,6 @@ p33 <- ggplot(mobilityCT_ATIPPEQ_r) +
         legend.key.size = unit(0.7, 'cm'),
         legend.key.width= unit(0.8, 'cm')) 
 p33
-
-
-
-
 
 # EssentialServices Quintile
 p34 <- ggplot(mobilityCT_EssentialServiceQ_r) + 
@@ -786,18 +652,6 @@ p34
 ggsave(p33, file= "../Plots/MobilitySDOH_Figures/ATIPPEQ_10curves.png", width = 6, height = 5)
 ggsave(p34, file= "../Plots/MobilitySDOH_Figures/EssentialServicesQ_10curves.png", width = 6, height = 5)
 
-# png("../Plots/MobilitySDOH_Figures/ATIPPEQ_10curves.png", width = 700, height = 600, units = "px",
-#     res = 120)
-# p33
-# dev.off()
-# 
-# 
-# png("../Plots/MobilitySDOH_Figures/EssentialServicesQ_10curves.png", width = 700, height = 600, units = "px",
-#     res = 120)
-# p34
-# dev.off()
-
-
 ##################### Make panels #################
 
 library(ggpubr)
@@ -815,23 +669,10 @@ p3
 ggsave(p3, file= "../Plots/MobilitySDOH_Figures/SDOH_CovidMobility.png", width = 9, height = 7)
 
 
+####################### Figure 3 ############################
 
-# # png for SDOH mobility and covid panel
-# library(cowplot)
-# png("../Plots/MobilitySDOH_Figures/SDOH_CovidMobility.png", width = 1400, height = 1150, units = "px",
-#     res = 120)
-# plot_grid( p31, p32, p33, p34, nrow=2, ncol=2, 
-#            labels = c("A", "B", "C", "D"),
-#            label_size = 13,
-#            scale=0.9)
-# dev.off()
-
-##############################################
-
-####################### Figure 4 and Appendix Figure A5 ############################
-
-# Figure 4
-# Forest plot for Table 4
+# Figure 3
+# Forest plot for S6 Table C 
 
 
 library(ggplot2)
@@ -842,7 +683,7 @@ library(dplyr)
 library(ggforce)
 
 
-table4<-read.csv("../new_version/did.csv")
+table4<-read.csv("../new_version/did2_categorical_forest.csv")
 nrow(table4)
 
 col2 = c('#0072B2',
@@ -855,10 +696,6 @@ table4b = table4 %>% filter(domain == "Adjusted mobility change following restri
 p41 <-ggplot(table4a[c(1:5),], aes(y= difference, x = reorder(label_level,5:1), color = label_head)) +
   geom_point(position = position_dodge(.5)) +
   geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
   scale_y_continuous(limits = c(-1,7),
                      breaks = c(-1,0, 1, 3, 5, 7),
                      minor_breaks = NULL) +
@@ -883,10 +720,6 @@ p41
 p42 <-ggplot(table4a[c(6:10),], aes(y= difference, x = reorder(label_level,5:1), color = label_head)) +
   geom_point(position = position_dodge(.5)) +
   geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
   scale_y_continuous(limits = c(-1,7),
                      breaks = c(-1,0, 1, 3, 5, 7),
                      minor_breaks = NULL) +
@@ -910,141 +743,11 @@ p42
 
 ##################### Make panels #################
 
-# png for forest plot panel 1
+
 library(cowplot)
-# png("../Plots/MobilitySDOH_Figures/Forest_plot_Table4a.png", width = 950, height = 500, units = "px",
-#     res = 120)
-png("../new_version/Forest_plot_Table4a.png", width = 950, height = 500, units = "px",
+png("../new_version/Forest_plot_Table6c.png", width = 950, height = 500, units = "px",
     res = 120)
 plot_grid( p41, p42,
-           labels = c("A", "B"),
-           label_size = 13,
-           scale=1,
-           rel_widths = c(1,1)) 
-dev.off()
-
-
-
-################################## 
-
-# Appendix A5
-
-
-
-pa51 <-ggplot(table4b[c(1:6),], aes(y= difference, x = reorder(label_level,6:1), color = label_head)) +
-  geom_point(position = position_dodge(.5)) +
-  geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
-  scale_y_continuous(limits = c(-4,4),
-                     breaks = c(-4, -2, 0, 2, 4),
-                     minor_breaks = NULL) +
-  geom_hline(yintercept = 0, linetype=2) +
-  scale_color_manual(name = "Model",
-                     values = '#0072B2')+
-  # scale_color_discrete(name = "Model",
-  #                      breaks = c("Unadjusted", "Age and sex adjusted","Non-SDOH adjusted","Full adjusted"),
-  #                      labels = c("Unadjusted", "Age and sex adjusted","Demographic and baseline health adjusted","Demographic, baseline health,\nand other SDOH adjusted"))+
-  scale_x_discrete(breaks = table4b[c(1:6),]$label_level,
-                   
-                   labels = c(expression(bold("Income (Q1=Highest)")),"Q1: Post vs Pre","Q2: Post vs Pre","Q3: Post vs Pre","Q4: Post vs Pre","Q5: Post vs Pre"))+
-  coord_flip(xlim = c(1,6), clip = 'off') +
-  # coord_cartesian(ylim = c(-4,4), clip = "off") +
-  # annotate(geom = 'text', label = '<- Reduced mobility', 
-  #          y = -4,
-  #          x = -1,
-  #          vjust = -3,
-  #          hjust = 0,
-  #          size = 3)+
-  # annotate(geom = 'text', label = ' Increased mobility ->', 
-  #          y = 1,
-  #          x = -1,
-  #          vjust = -3,
-#          hjust = 0,
-#          size = 3)+
-labs(title="", x ='', y = "Difference") +
-  # Add a second axis
-  geom_segment(x = -0.6, y = -4, xend = -0.6, yend = 4,color = 'black',
-               arrow = arrow(length = unit(0.03, "npc"), ends = "both"))+
-  annotate("segment",x=-0.55,xend=-0.65, y=0,yend=0, size=0.6)+
-  annotate("text",x=-0.8, y=-2.2,size=3.5, label = 'Reduced mobility')+
-  annotate("text",x=-0.8, y=2.2,size=3.5, label = 'Increased mobility')+
-  
-  theme_bw()+
-  theme(legend.position = "none",
-        plot.margin = margin(t = 10, 
-                             r = 10,
-                             b = 45, 
-                             l = 10)) +
-  facet_wrap(~ domain ,nrow = 1)
-
-pa51
-
-
-
-pa52 <-ggplot(table4b[c(7:12),], aes(y= difference, x = reorder(label_level,6:1), color = label_head)) +
-  geom_point(position = position_dodge(.5)) +
-  geom_errorbar(aes(ymin=lower, ymax=upper), width=.2, position = position_dodge(.8)) +
-  ## This is not a OR or RR so we don't want log scale of y
-  # scale_y_log10(limits = c(-1,7),
-  #               breaks = c(-1, 1, 3, 5, 7),
-  #               minor_breaks = NULL) +
-  scale_y_continuous(limits = c(-4,4),
-                     breaks = c(-4, -2, 0, 2, 4),
-                     minor_breaks = NULL) +
-  geom_hline(yintercept = 0, linetype=2) +
-  scale_color_manual(name = "Model",
-                     values = '#D55E00')+
-  # scale_color_discrete(name = "Model",
-  #                      breaks = c("Unadjusted", "Age and sex adjusted","Non-SDOH adjusted","Full adjusted"),
-  #                      labels = c("Unadjusted", "Age and sex adjusted","Demographic and baseline health adjusted","Demographic, baseline health,\nand other SDOH adjusted"))+
-  scale_x_discrete(breaks = table4b[c(7:12),]$label_level,
-                   
-                   labels = c(expression(bold("Proportion essential \nworkers (Q1=Lowest)")),"Q1: Post vs Pre","Q2: Post vs Pre","Q3: Post vs Pre","Q4: Post vs Pre","Q5: Post vs Pre"))+
-  coord_flip(xlim = c(1,6), clip = 'off') +
-  # coord_cartesian(ylim = c(-4,4), clip = "off") +
-  # annotate(geom = 'text', label = '<- Reduced mobility', 
-  #          y = -4,
-  #          x = -1,
-  #          vjust = -3,
-  #          hjust = 0,
-  #          size = 3)+
-  # annotate(geom = 'text', label = ' Increased mobility ->', 
-  #          y = 1,
-  #          x = -1,
-  #          vjust = -3,
-#          hjust = 0,
-#          size = 3)+
-labs(title="", x ='', y = "Difference") +
-  # Add a second axis
-  geom_segment(x = -0.6, y = -4, xend = -0.6, yend = 4,color = 'black',
-               arrow = arrow(length = unit(0.03, "npc"), ends = "both"))+
-  annotate("segment",x=-0.55,xend=-0.65, y=0,yend=0, size=0.6)+
-  annotate("text",x=-0.8, y=-2.2,size=3.5, label = 'Reduced mobility')+
-  annotate("text",x=-0.8, y=2.2,size=3.5, label = 'Increased mobility')+
-  
-  theme_bw()+
-  theme(legend.position = "none",
-        plot.margin = margin(t = 10, 
-                             r = 10,
-                             b = 45, 
-                             l = 10)) +
-  facet_wrap(~ domain ,nrow = 1)
-
-pa52
-
-
-##################### Make panel for Table 4b #################
-
-# png for forest plot panel
-library(cowplot)
-# png("../Plots/MobilitySDOH_Figures/Forest_plot_Table4b.png",width = 1000, height = 550, units = "px",
-#     res = 120)
-png("../new_version/Forest_plot_Table4b.png",width = 1100, height = 550, units = "px",
-    res = 120)
-plot_grid( pa51, pa52,
            labels = c("A", "B"),
            label_size = 13,
            scale=1,
@@ -1056,7 +759,7 @@ dev.off()
 ################# Appendix Figures ##########################
 ##############################################################
 
-####################### Appendix Figure A1, A6, A7, maps ############################
+####################### Appendix Figure A1, A3, A6 maps ############################
 
 
 library(sf)
@@ -1097,7 +800,7 @@ ggsave(file= "../Plots/MobilitySDOH_Figures/Map_phu_full.png", bg = 'white',
        width = 5, height = 5.6, limitsize = FALSE, phu_ct)
 
 
-###################### Appendix Figure A2 SDOH map ############################
+###################### Appendix Figure A3 SDOH map ############################
 
 # Original sdoh data
 SDOHdata <- read.csv("../Data/SDOHranking_CT.csv")
@@ -1170,24 +873,6 @@ ggsave(file= "../Plots/MobilitySDOH_Figures/Map_EW_quintile.png", bg = 'white',
        width = 4, height = 4.3, limitsize = FALSE, ew_quintile_ct)
 
 ########## Make panel ########
-
-# 
-# library(ggpubr)
-# pa2 = ggarrange(income_quintile_ct,ew_quintile_ct,
-#                align = "hv",
-#                nrow = 1,
-#                ncol = 2,
-#                common.legend = F,
-#                # legend = "right",
-#                heights = c(1,1),
-#                widths = c(1,1),
-#                labels = "AUTO")
-# 
-# pa2
-# ggsave(pa2, file= "../Plots/MobilitySDOH_Figures/SDOH_CovidMobility.png", 
-#        limitsize = FALSE,width = 7.5, height = 5)
-
-
 library(cowplot)
 png("../Plots/MobilitySDOH_Figures/Map_EWandIncome_quintile.png",width = 2100, height = 850, units = "px",
     res = 300)
@@ -1199,7 +884,7 @@ plot_grid( income_quintile_ct, ew_quintile_ct,
 dev.off()
 
 #################
-###################### Appendix Figure A2 Mobility map ############################
+###################### Appendix Figure A6 Mobility map ############################
 # Mobility map
 
 # 1239 CTs
@@ -1287,23 +972,6 @@ summary(subset(policy2, policy == 0)$mobility_mean)
 summary(subset(policy2, policy == 1)$mobility_mean)
 ##############################
 
-# strip_labels <- expression(
-#   '0' = A~Mobility~before~1^st~restriction,
-#   '1' = B~Mobility~after~1^st~restriction
-# )
-# 
-# # Helper function to help pluck values from expression list
-# label_expressions <- function(values) {
-#   stopifnot(is.expression(values))
-#   as_labeller(function(x) {
-#     if (is.null(names(values))) {
-#       x <- seq_along(x)
-#       if (length(x)!=length(values)) warning(paste0("Number of labels(",
-#                                                     length(values), ") does not match number of values (", length(x), ")"))
-#     }
-#     as.list(values[x])
-#   }, default=identity)
-# }
 
 mobi_ct_1_pre <- ggplot(data = policy1 %>% filter(policy == 0)) +
   geom_sf(aes(fill = mobility_mean, colour = 'grey30'))+
@@ -1323,9 +991,6 @@ mobi_ct_1_pre <- ggplot(data = policy1 %>% filter(policy == 0)) +
         # # Remove the facet label
         # strip.text.x = element_blank(),
         strip.text.x = element_text(hjust = 0, margin=margin(l=0))) 
-# facet_wrap(~policy, labeller = NULL)
-# facet_wrap(~policy,
-#            labeller = labeller(policy = label_expressions(strip_labels)))
 mobi_ct_1_pre
 
 
@@ -1347,31 +1012,8 @@ mobi_ct_1_post <- ggplot(data = policy1 %>% filter(policy == 1)) +
         # # Remove the facet label
         # strip.text.x = element_blank(),
         strip.text.x = element_text(hjust = 0, margin=margin(l=0))) 
-# facet_wrap(~policy, labeller = NULL)
-# facet_wrap(~policy,
-#            labeller = labeller(policy = label_expressions(strip_labels)))
 mobi_ct_1_post
 
-
-# Label
-# library(gtable)
-# g <- ggplotGrob(mobi_ct_1)
-# strips <- g$layout[grep("strip-t", g$layout$name), ]
-# titles <- lapply(paste0('(', letters[seq_len(nrow(strips))], ")"),
-#                  textGrob, x = 0, hjust = 0, vjust = 1)
-# g <- gtable_add_grob(g, grobs = titles,
-#                      t = strips$t, b = strips$b - 2,
-#                      l = strips$l, r = strips$r)
-# grid.newpage()
-# grid.draw(g)
-
-# png("../Plots/MobilitySDOH_Figures/Map_mobility_1.png", width = 2500, height = 2300, units = "px",
-#     res = 300)
-# mobi_ct_1
-# dev.off()
-
-# ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility_1.png", bg = 'white',                                     
-#        width = 7.5, height = 4.6, limitsize = FALSE, mobi_ct_1)
 
 ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility_1_pre.png", bg = 'white',                                     
        width = 3.5, height = 4, limitsize = FALSE, mobi_ct_1_pre)
@@ -1382,18 +1024,6 @@ ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility_1_post.png", bg = 'whit
 #####################################
 # 2nd restriction
 
-# policy2 = mcSDOH_ct_sf %>%
-#   filter(week %in% c(45,46,47,49,50,51)) %>%
-#   mutate(policy=as.factor(ifelse(week < 48, '0', '1'))) %>%
-#   group_by(CTUID, policy, geometry) %>%
-#   summarise(mobility_mean = mean(mobility))
-
-# Only Toronto and Peel PHUs
-# strip_labels <- expression(
-#   '0' = Mobility~before~2^nd~restriction~`for`~Toronto~and~Peel,
-#   '1' = Mobility~after~2^nd~restriction~`for`~Toronto~and~Peel
-# )
-# 
 mobi_ct_2_pre <- ggplot(data = policy2 %>% filter(policy == 0)) +
   geom_sf(aes(fill = mobility_mean,
           colour = 'grey30'))+
@@ -1412,9 +1042,6 @@ mobi_ct_2_pre <- ggplot(data = policy2 %>% filter(policy == 0)) +
         # # Remove the facet label
         # strip.text.x = element_blank(),
         strip.text.x = element_text(hjust = 0, margin=margin(l=0))) 
-# facet_wrap(~policy, labeller = NULL)
-# facet_wrap(~policy,
-#            labeller = labeller(policy = label_expressions(strip_labels)))
 mobi_ct_2_pre
 
 
@@ -1436,16 +1063,7 @@ mobi_ct_2_post <- ggplot(data = policy2 %>% filter(policy == 1)) +
         # # Remove the facet label
         # strip.text.x = element_blank(),
         strip.text.x = element_text(hjust = 0, margin=margin(l=0))) 
-# facet_wrap(~policy, labeller = NULL)
-# facet_wrap(~policy,
-#            labeller = labeller(policy = label_expressions(strip_labels)))
 mobi_ct_2_post
-
-
-
-
-# ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility_TorPee_2.png", bg = 'white',                                     
-#        width = 7.5, height = 5.6, limitsize = FALSE, mobi_ct_2)
 
 ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility_2_pre.png", bg = 'white',                                     
        width = 3.5, height = 4, limitsize = FALSE, mobi_ct_2_pre)
@@ -1474,15 +1092,12 @@ mobi_ct = ggarrange(mobi_ct_1_pre,mobi_ct_1_post,
 
 mobi_ct
 
-# png("../Plots/MobilitySDOH_Figures/Map_mobility.png", width = 2500, height = 2300, units = "px",
-#     res = 300)
-# mobi_ct
-# dev.off()
 
 ggsave(file= "../Plots/MobilitySDOH_Figures/Map_mobility.png", bg = 'white',                                     
        width = 7.5, height = 6.5, limitsize = FALSE, mobi_ct)
 
-###############################
+############################### Appendix Figure 5 ####################
+
 # Overall baseline vs current
 colors <- c("Current" = "", "Baseline" = "blue")
 
@@ -1537,126 +1152,3 @@ png("../Plots/MobilitySDOH_Figures/GTAmobility_comparison.png", width = 3300, he
     res = 300)
 p0
 dev.off()
-
-
-
-
-###########################
-###################### Appendix Figure A4 Correlation ############################
-
-#################### Spearman correlation coefficient ###################
-mobilitySDOH_CT <- read.csv("../Data/mobilitySDOH_CT.csv")
-length(unique(mobilitySDOH_CT$CTID))
-
-mobilitySDOH_CT = mobilitySDOH_CT %>%
-  mutate(ATIPPE_quintile=as.numeric(case_when(ATIPPE_quintile == "1" ~"5",
-                                              ATIPPE_quintile == "2" ~"4",
-                                              ATIPPE_quintile == "3" ~"3",
-                                              ATIPPE_quintile == "4" ~"2",
-                                              ATIPPE_quintile == "5" ~"1")),
-         ATIPPE_quintile_withinPHU=as.numeric(case_when(ATIPPE_quintile_withinPHU == "1" ~"5",
-                                                        ATIPPE_quintile_withinPHU == "2" ~"4",
-                                                        ATIPPE_quintile_withinPHU == "3" ~"3",
-                                                        ATIPPE_quintile_withinPHU == "4" ~"2",
-                                                        ATIPPE_quintile_withinPHU == "5" ~"1")))
-
-# Reduce the repeated time-independent data
-SDOHcorr = unique(mobilitySDOH_CT %>% select(CTID, CT_pop, 
-                                             ATIPPE, ATIPPE_quintile,
-                                             employ_sales.trades.manufacturing.agriculture, 
-                                             employ_sales.trades.manufacturing.agriculture_quintile))
-
-# Spearman correlation is -0.62 for ATIPPE and ESW
-cor.test(SDOHcorr$ATIPPE,
-         SDOHcorr$employ_sales.trades.manufacturing.agriculture,
-         method = "spearman",
-         exact = FALSE) 
-
-# Spearman correlation is 0.58 for two SDOH quintiles (reversed income from high to low)
-cor.test(SDOHcorr$ATIPPE_quintile,
-         SDOHcorr$employ_sales.trades.manufacturing.agriculture_quintile,
-         method = "spearman",
-         exact = FALSE) 
-
-
-# Scatterplot
-library(car)
-
-par(mar = c(5.1, 4.1, 4.1, 4.4))
-scatterplot(SDOHcorr$ATIPPE,
-            SDOHcorr$employ_sales.trades.manufacturing.agriculture,
-            xlab="Income",
-            ylab="Proportion essential workers ",
-            grid = FALSE,
-            boxplot = FALSE,
-            regLine = FALSE,
-            cex = 0.6)
-pa41 <- recordPlot()
-dev.off()
-
-
-
-scatterplot(SDOHcorr$ATIPPE_quintile,
-            SDOHcorr$employ_sales.trades.manufacturing.agriculture_quintile,
-            xlab="Income quintile",
-            ylab="Essential worker quintile",
-            grid=FALSE,
-            boxplot = FALSE,
-            regLine = FALSE,
-            cex = 0.6)
-pa42 <- recordPlot()
-dev.off()
-
-
-
-
-library(cowplot)
-png("../Plots/MobilitySDOH_Figures/scatterplot_two.png",width = 2200, height = 1200, units = "px",
-    res = 300)
-plot_grid( pa41, pa42,
-           labels = c("A", "B"),
-           label_size = 13,
-           nrow=1,
-           ncol=2,
-           scale=1,
-           rel_widths = c(1.1,1))
-dev.off()
-
-png("../Plots/MobilitySDOH_Figures/scatterplotQ.png", width = 1200, height =900, units = "px",
-    res = 200)
-scatterplot(SDOHcorr$ATIPPE_quintile,
-            SDOHcorr$employ_sales.trades.manufacturing.agriculture_quintile,
-            xlab="Income Quintile",
-            ylab="Essential Worker Quintile",
-            grid=FALSE,
-            boxplot = FALSE,
-            regLine = FALSE)
-
-dev.off()
-
-png("../Plots/MobilitySDOH_Figures/scatterplot.png", width = 1200, height =900, units = "px",
-    res = 200)
-scatterplot(SDOHcorr$ATIPPE,
-            SDOHcorr$employ_sales.trades.manufacturing.agriculture,
-            xlab="Income",
-            ylab="Proportion Essential Worker ",
-            grid = FALSE,
-            boxplot = FALSE,
-            regLine = FALSE)
-dev.off()
-##############################
-
-
-
-
-
-
-####################
-
-
-
-###############################
-
-
-
-

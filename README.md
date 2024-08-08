@@ -6,9 +6,10 @@ codes
 2. Results: run the functions and generate descriptive analysis results
 3. DID: run DID models and generate model results
 4. Figures: generate plots
+5. Sensitivity analysis: explain the process to get the sensitivitiy analysis results
 
 tables
-1. DID model resi;ts
+1. DID models and results
 
 figures (main figures)
 1. Fig1: policy timelines
